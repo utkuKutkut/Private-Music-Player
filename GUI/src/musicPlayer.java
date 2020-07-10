@@ -12,7 +12,7 @@ public class musicPlayer implements Serializable {
     int songKeys=1;
     int playlistKeys=1;
     int emailKeys=1;
-
+    String md5="";
     public void addUser() {
         user newUser= new user(userKeys,"User "+userKeys,"Email "+emailKeys);
         userKeys++;
@@ -355,6 +355,14 @@ public class musicPlayer implements Serializable {
             msg+="Invalid user ID!";
         }
         return msg;
+    }
+
+    public void writeCode(String code){
+        md5="";
+        md5+=code;
+    }
+    public String getCode(){
+        return md5;
     }
 
 

@@ -10,9 +10,9 @@ public class main {
 
 
 
-    public static <musicplayer> void main(String[] args) throws NoSuchAlgorithmException, IOException, ClassNotFoundException {
+    public static <musicplayer> void main(String[] args) throws Exception {
 
-
+        int firstTime=0;
         File myObj = new File("Music_Player.txt");
 
             if (myObj.createNewFile()) {
@@ -50,6 +50,7 @@ public class main {
                 } catch (IOException ioException) {
                     ioException.printStackTrace();
                 }
+                firstTime=1;
             }else{
                 String msg = "Registered file found: " + myObj.getName()+"\n Reading the specified file ...";
                 musicPlayer main2=new musicPlayer();
@@ -68,15 +69,38 @@ public class main {
             ObjectInputStream objectIn = new ObjectInputStream(fileIn);
             musicPlayer main = (musicPlayer) objectIn.readObject();
 
+        if(firstTime!=1) {
+            //Lets manage the security of our application
+            BufferedReader br = new BufferedReader(new FileReader("codeHere.txt"));
+            String line = br.readLine();
+
+            // I CHECKSUM IF ANY MODIFICATION DONE. BY MD5 CODES !
+            if (line.equals(main.getCode())) {
+                System.out.println("\nYOUR SYSTEM IS SAFE. NO MODIFICATION HAS BEEN DONE. HERE IS YOUR DATA !! ");
+                String msg = "YOUR SYSTEM IS SAFE. NO MODIFICATION HAS BEEN DONE.";
+                musicPlayer main2 = new musicPlayer();
+                JOptionPane optionPane = new JOptionPane();
+                optionPane.setMessage(msg);
+                optionPane.setMessageType(JOptionPane.INFORMATION_MESSAGE);
+                JDialog dialog = optionPane.createDialog(null, "MD5 CHECKSUM");
+                dialog.setVisible(true);
+            } else {
+                System.out.println("\nCaution! Some of your data has been modified. Security problem detected !!!!");
+                String msg = "Caution! Some of your data has been modified. Security problem detected !";
+                musicPlayer main2 = new musicPlayer();
+                JOptionPane optionPane = new JOptionPane();
+                optionPane.setMessage(msg);
+                optionPane.setMessageType(JOptionPane.INFORMATION_MESSAGE);
+                JDialog dialog = optionPane.createDialog(null, "MD5 CHECKSUM");
+                dialog.setVisible(true);
+
+            }
+        }
 
 
 
 
-
-
-
-
-
+        // GUI starts here ...
         JFrame schema = new JFrame();
         schema.setTitle("Welcome to Music Player!");
         schema.setSize(800, 800);
@@ -577,56 +601,70 @@ public class main {
             private String filepath = "";
 
             public void actionPerformed(ActionEvent e) {
+                //Generate a MD5 code and save it first...
+                String myCode = null;
+                try {
+                    myCode = getMD5Checksum("Music_Player.txt");
+                    main.writeCode(myCode);
+                } catch (Exception exception) {
+                    exception.printStackTrace();
+                }
+                BufferedWriter writer = null;
 
+                try {
+                    writer = new BufferedWriter(new FileWriter("codeHere.txt"));
+                } catch (IOException ioException) {
+                    ioException.printStackTrace();
+                }
+                try {
+                    writer.write(myCode);
+                } catch (IOException ioException) {
+                    ioException.printStackTrace();
+                }
+                try {
+                    writer.close();
+                } catch (IOException ioException) {
+                    ioException.printStackTrace();
+                }
+
+                //save the changes ...
                 File myObj = new File("Music_Player.txt");
                 try {
-                    if (myObj.createNewFile()) {
-                        String msg = "Your file created: " + myObj.getName();
-                        JOptionPane optionPane = new JOptionPane();
-                        optionPane.setMessage(msg);
-                        optionPane.setMessageType(JOptionPane.INFORMATION_MESSAGE);
-                        JDialog dialog = optionPane.createDialog(null, "INFO");
-                        dialog.setVisible(true);
-                        System.out.println("File created: " + myObj.getName());
+                    FileOutputStream fileOut = null;
+                    try {
+                        filepath += "Music_Player.txt";
+                        fileOut = new FileOutputStream(filepath);
+                    } catch (FileNotFoundException fileNotFoundException) {
+                        fileNotFoundException.printStackTrace();
                     }
+                    ObjectOutputStream objectOut = null;
+                    try {
+                        objectOut = new ObjectOutputStream(fileOut);
+                    } catch (IOException ioException) {
+                        ioException.printStackTrace();
+                    }
+                    try {
+                        objectOut.writeObject(main);
+                    } catch (IOException ioException) {
+                        ioException.printStackTrace();
+                    }
+                    try {
+                        objectOut.close();
+                    } catch (IOException ioException) {
+                        ioException.printStackTrace();
+                    }
+                    String msg = "Your changes has been saved to file: " + myObj.getName();
+                    JOptionPane optionPane = new JOptionPane();
+                    optionPane.setMessage(msg);
+                    optionPane.setMessageType(JOptionPane.INFORMATION_MESSAGE);
+                    JDialog dialog = optionPane.createDialog(null, "INFO");
+                    dialog.setVisible(true);
+                } finally {
 
-                } catch (IOException ioException) {
-                    ioException.printStackTrace();
                 }
-
-
-                FileOutputStream fileOut = null;
-                try {
-                    filepath += "Music_Player.txt";
-                    fileOut = new FileOutputStream(filepath);
-                } catch (FileNotFoundException fileNotFoundException) {
-                    fileNotFoundException.printStackTrace();
-                }
-                ObjectOutputStream objectOut = null;
-                try {
-                    objectOut = new ObjectOutputStream(fileOut);
-                } catch (IOException ioException) {
-                    ioException.printStackTrace();
-                }
-                try {
-                    objectOut.writeObject(main);
-                } catch (IOException ioException) {
-                    ioException.printStackTrace();
-                }
-                try {
-                    objectOut.close();
-                } catch (IOException ioException) {
-                    ioException.printStackTrace();
-                }
-                String msg = "Your changes has been saved to file: " + myObj.getName();
-                JOptionPane optionPane = new JOptionPane();
-                optionPane.setMessage(msg);
-                optionPane.setMessageType(JOptionPane.INFORMATION_MESSAGE);
-                JDialog dialog = optionPane.createDialog(null, "INFO");
-                dialog.setVisible(true);
-
 
             }
+
         });
 
 
