@@ -8,7 +8,7 @@ public class main {
 
 
         while (true) {
-            System.out.println("\n\nWelcome to Music Player.\n1.Add User\n2.Delete User\n3.Get user details\n4.Add song\n5.Delete song\n6.Get song album\n7.Add playlist\n8.Add song to playlist\n9.Get playlist details\n10.Delete playlist\n11.Display all songs\n12.Display all users\n13.Follow person\n14.List all followers\n15.Change subscription type\nPlease enter your choise:");
+            System.out.println("\n\nWelcome to Music Player.\n1.Add User\n2.Delete User\n3.Get user details\n4.Add song\n5.Delete song\n6.Add playlist\n7.Add song to playlist\n8.Get playlist details\n9.Delete playlist\n10.Display all songs\n11.Display all users\n12.Follow person\n13.List all followers\n14.Change subscription type\nPlease enter your choise:");
             Scanner reader = new Scanner(System.in);  // Reading from System.in
             int n = reader.nextInt();
             switch (n) {
@@ -37,14 +37,12 @@ public class main {
                     main.deleteSong(id3);
                     break;
                 case 6:
-                    break;
-                case 7:
                     System.out.println("Enter the user ID:");
                     Scanner reader5 = new Scanner(System.in);  // Reading from System.in
                     int id4 = reader5.nextInt();
                     main.addPlaylistUser(id4);
                     break;
-                case 8:
+                case 7:
                     System.out.println("Enter the song ID:");
                     Scanner reader6 = new Scanner(System.in);  // Reading from System.in
                     int id5 = reader6.nextInt();
@@ -53,25 +51,25 @@ public class main {
                     int id6 = reader7.nextInt();
                     main.addSongToPlaylist(id5,id6);
                     break;
-                case 9:
+                case 8:
                     System.out.println("Enter the playlist ID:");
                     Scanner reader8 = new Scanner(System.in);  // Reading from System.in
                     int id7 = reader8.nextInt();
                     main.playlistDetails(id7);
                     break;
-                case 10:
+                case 9:
                     System.out.println("Enter the playlist ID:");
                     Scanner reader9 = new Scanner(System.in);  // Reading from System.in
                     int id8 = reader9.nextInt();
                     main.deletePlaylist(id8);
                     break;
-                case 11:
+                case 10:
                     main.printAllSongs();
                     break;
-                case 12:
+                case 11:
                     main.printAllUsers();
                     break;
-                case 13:
+                case 12:
                     System.out.println("Enter your ID:");
                     Scanner reader10 = new Scanner(System.in);  // Reading from System.in
                     int id9 = reader10.nextInt();
@@ -80,13 +78,13 @@ public class main {
                     int id10 = reader11.nextInt();
                     main.followPerson(id9,id10);
                     break;
-                case 14:
+                case 13:
                     System.out.println("Enter the user ID");
                     Scanner reader12 = new Scanner(System.in);  // Reading from System.in
                     int id11 = reader12.nextInt();
                     main.printFollowers(id11);
                     break;
-                case 15:
+                case 14:
                     System.out.println("Enter the user ID");
                     Scanner reader13 = new Scanner(System.in);  // Reading from System.in
                     int id12 = reader13.nextInt();
