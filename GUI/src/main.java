@@ -14,8 +14,8 @@ public class main {
 
         int firstTime=0;
         File myObj = new File("Music_Player.txt");
-
-            if (myObj.createNewFile()) {
+        File myCode = new File("codeHere.txt");
+            if (myObj.createNewFile() || myCode.createNewFile() ) {
                 String msg = "No registered file has been found. New session is starting ...\nFile created: " + myObj.getName();
                 musicPlayer main2=new musicPlayer();
                 JOptionPane optionPane = new JOptionPane();
@@ -50,6 +50,7 @@ public class main {
                 } catch (IOException ioException) {
                     ioException.printStackTrace();
                 }
+                myCode.delete();
                 firstTime=1;
             }else{
                 String msg = "Registered file found: " + myObj.getName()+"\n Reading the specified file ...";
@@ -71,8 +72,9 @@ public class main {
 
         if(firstTime!=1) {
             //Lets manage the security of our application
-            BufferedReader br = new BufferedReader(new FileReader("codeHere.txt"));
-            String line = br.readLine();
+
+                BufferedReader br = new BufferedReader(new FileReader("codeHere.txt"));
+                String line = br.readLine();
 
             // I CHECKSUM IF ANY MODIFICATION DONE. BY MD5 CODES !
             if (line.equals(main.getCode())) {
